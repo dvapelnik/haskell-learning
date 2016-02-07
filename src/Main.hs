@@ -4,22 +4,20 @@ main :: IO ()
 
 main = putStr "dasdasd"
 
-data Bool = True | False
+true :: Bool
+true = True
 
-true :: Main.Bool
-true = Main.True
+false :: Bool
+false = False
 
-false :: Main.Bool
-false = Main.False
+not :: Bool -> Bool
+not True = False
+not False = True
 
-not :: Main.Bool -> Main.Bool
-not Main.True = Main.False
-not Main.False = Main.True
+and :: Bool -> Bool -> Bool
+and False _ = False
+and True x = x
 
-and :: Main.Bool -> Main.Bool -> Main.Bool
-and Main.False _ = Main.False
-and Main.True x = x
-
-or :: Main.Bool -> Main.Bool -> Main.Bool
-or Main.True _ = Main.True
-or Main.False x = x
+or :: Bool -> Bool -> Bool
+or True _ = True
+or False x = x
