@@ -2,6 +2,7 @@ module Main where
 
 import MyBoolean
 import Calculus
+import ClassOfGroup
 
 main :: IO ()
 
