@@ -24,3 +24,7 @@ myOr False x = x
 
 myXor :: Bool -> Bool -> Bool
 myXor a b = myOr (myAnd (myNot a) b) (myAnd a (myNot b))
+
+myIfThenElse :: Bool -> a -> a -> a
+myIfThenElse True t _ = t
+myIfTherElse False _ e = e
