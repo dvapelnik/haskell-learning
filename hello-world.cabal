@@ -7,3 +7,4 @@ executable hello-world
   main-is:         Main.hs
   hs-source-dirs:  src
   build-depends:   base
+                 , text

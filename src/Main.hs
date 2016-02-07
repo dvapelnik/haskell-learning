@@ -12,3 +12,5 @@ main = do
     putStrLn ( show $ division 1 2 )
     putStrLn ( show $ multiple 2 4 )
     putStrLn ( show $ power 2 10 )
+    print(take 2 (replicate 100 "127.0.0.1"))
+    print(take 4 (repeat "127.0.0.1"))
