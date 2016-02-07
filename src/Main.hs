@@ -4,20 +4,23 @@ main :: IO ()
 
 main = putStr "dasdasd"
 
-true :: Bool
-true = True
+myTrue :: Bool
+myTrue = True
 
-false :: Bool
-false = False
+myFalse :: Bool
+myFalse = False
 
-not :: Bool -> Bool
-not True = False
-not False = True
+myNot :: Bool -> Bool
+myNot True = False
+myNot False = True
 
-and :: Bool -> Bool -> Bool
-and False _ = False
-and True x = x
+myAnd :: Bool -> Bool -> Bool
+myAnd False _ = False
+myAnd True x = x
 
-or :: Bool -> Bool -> Bool
-or True _ = True
-or False x = x
+myOr :: Bool -> Bool -> Bool
+myOr True _ = True
+myOr False x = x
+
+myXor :: Bool -> Bool -> Bool
+myXor a b = myOr (myAnd (myNot a) b) (myAnd a (myNot b))
