@@ -1,4 +1,4 @@
-module O_04_Lambdas where
+module L_04_Lambdas where
 
 powerLambda :: Int -> Int -> Int
 powerLambda a b =

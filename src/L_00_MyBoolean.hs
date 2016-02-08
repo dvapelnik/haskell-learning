@@ -1,4 +1,4 @@
-module O_00_MyBoolean where
+module L_00_MyBoolean where
 
 myTrue :: Bool
 myTrue = True

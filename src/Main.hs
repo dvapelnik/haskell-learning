@@ -1,10 +1,10 @@
 module Main where
 
-import O_00_MyBoolean
-import O_01_Calculus
-import O_02_ClassOfGroup
-import O_03_RealFunctions
-import O_04_Lambdas
+import L_00_MyBoolean
+import L_01_Calculus
+import L_02_ClassOfGroup
+import L_03_RealFunctions
+import L_04_Lambdas
 
 main :: IO ()
 

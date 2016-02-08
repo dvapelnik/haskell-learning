@@ -1,4 +1,4 @@
-module O_03_RealFunctions where
+module L_03_RealFunctions where
 
 doubleMeInt :: Int -> Int
 doubleMeInt a = a + a
