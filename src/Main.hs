@@ -1,9 +1,9 @@
 module Main where
 
-import MyBoolean
-import Calculus
-import ClassOfGroup
-import RealFunctions
+import O_00_MyBoolean
+import O_01_Calculus
+import O_02_ClassOfGroup
+import O_03_RealFunctions
 
 main :: IO ()
 

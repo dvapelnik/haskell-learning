@@ -1,4 +1,4 @@
-module ClassOfGroup where
+module O_02_ClassOfGroup where
 
 class MyGroup a where
     e   :: a

@@ -1,4 +1,4 @@
-module Calculus (
+module O_01_Calculus (
     add
   , diff
   , division
