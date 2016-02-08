@@ -4,6 +4,7 @@ import O_00_MyBoolean
 import O_01_Calculus
 import O_02_ClassOfGroup
 import O_03_RealFunctions
+import O_04_Lambdas
 
 main :: IO ()
 
@@ -33,3 +34,6 @@ main = do
     print (lengthConversionSimple 1.5)
     print (lengthConversionWithWhere 1.5)
     print (lengthConversionWithLet 1.5)
+    putStrLn "- Lambdas"
+    print ((\x -> x * x ) 5)
+    print (powerLambda 2 3)
