@@ -6,6 +6,8 @@ import L_02_ClassOfGroup
 import L_03_RealFunctions
 import L_04_Lambdas
 import L_05_Types
+import L_06_PartialApplying
+import L_07_FunctionAsArgument
 
 main :: IO ()
 
@@ -40,4 +42,12 @@ main = do
     print (powerLambda 2 3)
     putStrLn "- Types"
     print(doubleMeIntTyped 45)
-
+    putStrLn "- Partial applying"
+    print(doubleSummaInt 1 2)
+    print((doubleSummaInt 1) 2)
+    putStrLn "- Partial applying with let"
+    print((\x y -> let tmp_fn = doubleSummaInt x in tmp_fn y) 2 3)
+    putStrLn "- Actor executor"
+    print(let actor = \x y -> x + y in actor_executor actor 2 3)
+    print(let actor = \x y -> x - y in actor_executor actor 2 3)
+    print(let actor = \x y -> x * y - y + 2 * x in actor_executor actor 2 3)
