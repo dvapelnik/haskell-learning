@@ -5,6 +5,7 @@ import L_01_Calculus
 import L_02_ClassOfGroup
 import L_03_RealFunctions
 import L_04_Lambdas
+import L_05_Types
 
 main :: IO ()
 
@@ -37,3 +38,6 @@ main = do
     putStrLn "- Lambdas"
     print ((\x -> x * x ) 5)
     print (powerLambda 2 3)
+    putStrLn "- Types"
+    print(doubleMeIntTyped 45)
+
