@@ -8,3 +8,4 @@ executable hello-world
   hs-source-dirs:  src
   build-depends:   base
                  , text
+                 , MissingH
