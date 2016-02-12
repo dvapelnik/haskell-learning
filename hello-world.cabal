@@ -9,3 +9,5 @@ executable hello-world
   build-depends:   base
                  , text
                  , MissingH
+                 , tuple
+                 , extra
