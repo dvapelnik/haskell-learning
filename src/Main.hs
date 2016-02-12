@@ -1,38 +1,26 @@
 module Main where
 
 import Data.List
+import Data.Char
 import Data.String.Utils
 import Data.Tuple.Extra
 import Data.Tuple.Select
 
-chessMoveFstSec :: (String, String) -> String
-chessMoveFstSec pair = fst pair ++ "-" ++ snd pair
-
-chessMovePatternMatching :: (String, String) -> String
-chessMovePatternMatching (f, s) = f ++ "-" ++ s
-
-get31 :: (String, String, String) -> String
-get31 (elem, _, _) = elem
-
-get32 :: (String, String, String) -> String
-get32 (_, elem, _) = elem
-
-get33 :: (String, String, String) -> String
-get33 (_, _, elem) = elem
-
-
 main = do
-    print "Parallel composition opetaror"
-    print (succ *** reverse  $(2, "text"))
-    print "Fst ans Sec of pair"
-    print $ chessMoveFstSec ("e2", "e4")
-    print "Pattern matching using"
-    print $ chessMovePatternMatching ("e2", "e4")
-    print "Own getNI"
-    print $ get31 ("One", "Two", "Three")
-    print $ get32 ("One", "Two", "Three")
-    print $ get33 ("One", "Two", "Three")
-    print "selI from select package"
-    print $ sel1 ("One", "Two", "Three")
-    print $ sel2 ("One", "Two", "Three")
-    print $ sel3 ("One", "Two", "Three")
+    print $ [toUpper c | c <- "http"]
+    print $ [toUpper c | c <- "http", c == 't']
+    print $ [toUpper c | c <- "http", c == 't' || c == 'p', c == 'p']
+    print $ [toUpper c | c <- "http", c /= 't']
+    print $ [prefix ++ " " ++ name | name <- ["John", "Mary"], prefix <- ["Mr."]]
+    print $ [prefix ++ " " ++ name | name <- ["John", "Mary"], prefix <- ["Mr.", "Ms.", "Mss."]]
+    print $ [if car == "Bentley" then "Wow!" else "Good!" | car <- ["Mercedes", "BMW", "Bentley", "Audi", "Bentley"]]
+    print $
+        let
+            nameFrom fullEmail  = takeWhile (/= '@') fullEmail
+            checkGooglerBy email =
+                if "gmail.com" `isSuffixOf` email
+                then nameFrom email ++ " is Googler!"
+                else email
+        in
+        [checkGooglerBy email | email <- ["adam@gmail.com", "bob@yahoo.com", "richard@gmail.com", "elena@yandex.ru", "asdadasd@", "denis@gmail.com"]]
+
