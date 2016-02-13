@@ -1,24 +1,16 @@
 module Main where
 
-data IpAddress = IpAddress String
-instance Show IpAddress where
-    show (IpAddress address) =
-        if address == "127.0.0.1"
-        then "localhost"
-        else address
+myLastRecursive :: [a] -> a
+myLastRecursive [] = error "List is empty!"
+myLastRecursive [x] = x
+myLastRecursive (_:x) = myLastRecursive x
 
-data Person = Person String Int
-instance Show Person where
-    show (Person name age) = "Person has name '" ++ name ++ "' and age '" ++ show age ++ "'"
+myLastByIndex :: [a] -> a
+myLastByIndex [] = error "List is empty!"
+myLastByIndex x = x !! (length x - 1)
 
 main = do
-    print $
-        let
-            localhost = IpAddress "127.0.0.1"
-        in
-        show localhost
-    print $
-        let
-            peter = Person "Peter" 28
-        in
-        show peter
+    print $ last [1, 2, 3]
+    print . head . reverse $  [1, 2, 3]
+    print . myLastRecursive $ take 10 [1,19..]
+    print . myLastByIndex $ take 10 [1,19..]
