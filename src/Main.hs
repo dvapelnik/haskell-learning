@@ -1,13 +1,17 @@
 module Main where
 
-myReverse :: String -> String
-myReverse s = reverse s
+isPalindrome :: (Eq a) => [a] -> Bool
+isPalindrome [] = True
+isPalindrome [_] = True
+isPalindrome xs = xs == (reverse xs)
 
-myReverse' :: String -> String
-myReverse' [] = []
-myReverse' (x:xs) = myReverse' xs ++ [x]
+isPalindrome' :: (Eq a) => [a] -> Bool
+isPalindrome' [] = True
+isPalindrome' [_] = True
+isPalindrome' xs = (head xs) == (last xs) && (isPalindrome' . init . tail $ xs)
 
 main = do
-    print $ myReverse   "A man, a plan, a canal, panama!"
-    print $ myReverse'  "A man, a plan, a canal, panama!"
-    print $ foldl (flip (:)) [] "A man, a plan, a canal, panama!"
+    print $ isPalindrome    "ama"
+    print $ isPalindrome    "amaa"
+    print $ isPalindrome'   "ama"
+    print $ isPalindrome'   "amaa"
