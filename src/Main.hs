@@ -1,46 +1,27 @@
 module Main where
 
-data IpAddress = IpAddress String
-instance Show IpAddress where
-    show (IpAddress address) =
-        if address == "127.0.0.1"
-        then "localhost"
-        else address
+data Connection = Connection {ip::String, port::Int}
 
-data Person = Person String Int | PersonNamed String
-instance Show Person where
-    show (Person name age)      =   "Person has name '" ++ name ++ "' and age '" ++ show age ++ "'"
-    show (PersonNamed name)   =   "PersonNamed has name '" ++ name ++ "'"
+instance Show Connection where
+    show (Connection ip port) = ip ++ ":" ++ show port
 
-data TransportLayer = TCP | UDP | SCTP | DCCP | SPX
+instance Eq Connection where
+    (==) (Connection ip1 port1) (Connection ip2 port2) = (ip1 == ip2) && (port1 == port2)
+    (/=) connection1 connection2 = not (connection1 == connection2)
 
-descriptionOf :: TransportLayer -> String
-descriptionOf proto =
-    case proto of
-        TCP  -> "Transmission Control Protocol"
-        UDP  -> "User Datagram Protocol"
-        SCTP -> "Stream Control Transmission Protocol"
-        DCCP -> "Datagram Congestion Control Protocol"
-        SPX  -> "Sequenced Packet Exchange"
+getConnectionStringIfInList :: (Eq a, Show a) => a -> [a] -> String
+getConnectionStringIfInList a list =
+    if a `elem` list
+    then show a
+    else ""
 
 main = do
-    print $
-        let
-            localhost = IpAddress "127.0.0.1"
-        in
-        show localhost
-    print $
-        let
-            peter = Person "Peter" 28
-        in
-        show peter
-    print $
-        let
-            peter = PersonNamed "Peter"
-        in
-        show peter
-    print $ descriptionOf TCP
-    print $ descriptionOf UDP
-    print $ descriptionOf SCTP
-    print $ descriptionOf DCCP
-    print $ descriptionOf SPX
+    print $ connections
+    print $ correctConnection `elem` connections
+    print $ wrongConnection `elem` connections
+    print . getConnectionStringIfInList correctConnection $ connections
+    print . getConnectionStringIfInList wrongConnection $ connections
+    where
+        connections = [Connection "127.0.0.1" 80, Connection "10.0.8.9" 433]
+        correctConnection = Connection "127.0.0.1" 80
+        wrongConnection = Connection "127.0.0.1" 8080
