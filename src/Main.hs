@@ -7,10 +7,10 @@ instance Show IpAddress where
         then "localhost"
         else address
 
-data Person = Person String Int | PersonNamed String Int
+data Person = Person String Int | PersonNamed String
 instance Show Person where
     show (Person name age)      =   "Person has name '" ++ name ++ "' and age '" ++ show age ++ "'"
-    show (PersonNamed name _)   =   "PersonNamed has name '" ++ name ++ "'"
+    show (PersonNamed name)   =   "PersonNamed has name '" ++ name ++ "'"
 
 data TransportLayer = TCP | UDP | SCTP | DCCP | SPX
 
@@ -36,7 +36,7 @@ main = do
         show peter
     print $
         let
-            peter = PersonNamed "Peter" 28
+            peter = PersonNamed "Peter"
         in
         show peter
     print $ descriptionOf TCP
