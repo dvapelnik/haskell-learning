@@ -1,27 +1,51 @@
 module Main where
 
-data Connection = Connection {ip::String, port::Int}
+import Text.Printf
 
-instance Show Connection where
-    show (Connection ip port) = ip ++ ":" ++ show port
+data Date = Date { year::Int
+                 , month::Int
+                 , day::Int
+                }
 
-instance Eq Connection where
-    (==) (Connection ip1 port1) (Connection ip2 port2) = (ip1 == ip2) && (port1 == port2)
-    (/=) connection1 connection2 = not (connection1 == connection2)
+instance Show Date where
+    show (Date year month day) = printf "%04d.%02d.%02d" year month day
 
-getConnectionStringIfInList :: (Eq a, Show a) => a -> [a] -> String
-getConnectionStringIfInList a list =
-    if a `elem` list
-    then show a
-    else ""
+data User = User { firstName
+                 , lastName
+                 , email::String
+                 , birthDay
+                 , registered::Date
+                }
+
+instance Show User where
+    show (User firstName lastName email birthDay registered) =
+        let
+            birthDayString =  show birthDay
+            registeredString = show registered
+        in
+        printf "%s %s <%s>, %s, %s" firstName lastName email birthDayString registeredString
+
+changeEmail :: String -> User -> User
+changeEmail newEmail user = user { email = newEmail }
 
 main = do
-    print $ connections
-    print $ correctConnection `elem` connections
-    print $ wrongConnection `elem` connections
-    print . getConnectionStringIfInList correctConnection $ connections
-    print . getConnectionStringIfInList wrongConnection $ connections
-    where
-        connections = [Connection "127.0.0.1" 80, Connection "10.0.8.9" 433]
-        correctConnection = Connection "127.0.0.1" 80
-        wrongConnection = Connection "127.0.0.1" 8080
+    print $ user
+    print . firstName $ user
+    print . lastName $ user
+    print . email $ user
+    print . year . birthDay $ user
+    print . month . birthDay $ user
+    print . day . birthDay $ user
+    print . email . changeEmail "new.jotan.martsen@gmail.com" $ user
+    where user = User { firstName = "Jotan"
+                      , lastName = "Martsen"
+                      , email = "jotan.martsen@gmail.com"
+                      , birthDay = Date { year = 1985
+                                        , month = 5
+                                        , day = 18
+                                        }
+                      , registered = Date { year = 2016
+                                          , month = 2
+                                          , day = 17
+                                          }
+                      }
