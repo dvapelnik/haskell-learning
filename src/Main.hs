@@ -1,51 +1,49 @@
 module Main where
 
-import Text.Printf
+-- Show     convert to string (serilization)
+-- Read     read from string (deserialization)
+-- Eq       (==), (/=)
+-- Ord      (>), (<), (>=), (<=), compare, min, max
+-- Enum     only for nullar types like TransportLayer
+--          can make generator like [TCP ..]
+--          <Attention!> space before doubledot is important
+-- Bounded  Can retrive min and max bounds of type
+--          For instance for Int and TransportLayer type
 
-data Date = Date { year::Int
-                 , month::Int
-                 , day::Int
-                }
 
-instance Show Date where
-    show (Date year month day) = printf "%04d.%02d.%02d" year month day
-
-data User = User { firstName
-                 , lastName
-                 , email::String
-                 , birthDay
-                 , registered::Date
-                }
-
-instance Show User where
-    show (User firstName lastName email birthDay registered) =
-        let
-            birthDayString =  show birthDay
-            registeredString = show registered
-        in
-        printf "%s %s <%s>, %s, %s" firstName lastName email birthDayString registeredString
-
-changeEmail :: String -> User -> User
-changeEmail newEmail user = user { email = newEmail }
+data IPAddress = IPAddress String deriving Show
+data User = User { name
+                 , surname::String
+                 , age::Int
+                 } deriving (Show, Read, Eq, Ord)
+data TransportLayer = TCP | UDP | SCTP | DCCP | SPX
+                      deriving (Show, Enum, Bounded)
 
 main = do
+    print . IPAddress $ "localhost"
     print $ user
-    print . firstName $ user
-    print . lastName $ user
-    print . email $ user
-    print . year . birthDay $ user
-    print . month . birthDay $ user
-    print . day . birthDay $ user
-    print . email . changeEmail "new.jotan.martsen@gmail.com" $ user
-    where user = User { firstName = "Jotan"
-                      , lastName = "Martsen"
-                      , email = "jotan.martsen@gmail.com"
-                      , birthDay = Date { year = 1985
-                                        , month = 5
-                                        , day = 18
-                                        }
-                      , registered = Date { year = 2016
-                                          , month = 2
-                                          , day = 17
-                                          }
-                      }
+    print $
+        let
+            object = user
+            serializedObject = show object
+            deserializedObject = read serializedObject
+        in
+        object == deserializedObject
+    print $
+        let
+            descriptionOf = \protocol ->
+                case protocol of
+                    TCP  -> "Transmission Control Protocol"
+                    UDP  -> "User Datagram Protocol"
+                    SCTP -> "Stream Control Transmission Protocol"
+                    DCCP -> "Datagram Congestion Control Protocol"
+                    SPX  -> "Sequenced Packet Exchange"
+        in
+        [descriptionOf protocol | protocol <- [TCP ..]]
+    print $ show(minBound::TransportLayer)
+    print $ show(maxBound::TransportLayer)
+    where
+        user = User { name = "Name"
+                    , surname = "Surname"
+                    , age = 18
+                    }
