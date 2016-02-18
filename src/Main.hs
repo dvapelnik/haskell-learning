@@ -17,6 +17,8 @@ data User = User { firstName
                  , registered::Date
                 }
 
+data MyType a = MyType { someField :: a } deriving Show
+
 instance Show User where
     show (User firstName lastName email birthDay registered) =
         let
@@ -29,6 +31,8 @@ changeEmail :: String -> User -> User
 changeEmail newEmail user = user { email = newEmail }
 
 main = do
+    print $ MyType { someField = 12.45 :: Double }
+    print $ MyType { someField = "String" :: String }
     print $ user
     print . firstName $ user
     print . lastName $ user
