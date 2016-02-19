@@ -1,49 +1,33 @@
 module Main where
 
--- Show     convert to string (serilization)
--- Read     read from string (deserialization)
--- Eq       (==), (/=)
--- Ord      (>), (<), (>=), (<=), compare, min, max
--- Enum     only for nullar types like TransportLayer
---          can make generator like [TCP ..]
---          <Attention!> space before doubledot is important
--- Bounded  Can retrive min and max bounds of type
---          For instance for Int and TransportLayer type
+import Text.Printf
+import Data.String.Utils
 
-
-data IPAddress = IPAddress String deriving Show
-data User = User { name
+data User a = User { name
                  , surname::String
-                 , age::Int
-                 } deriving (Show, Read, Eq, Ord)
-data TransportLayer = TCP | UDP | SCTP | DCCP | SPX
-                      deriving (Show, Enum, Bounded)
+                 , age::a
+                 }
+
+instance Show a => Show (User a) where
+    show (User name surname age) =
+        let
+            aStringed = replace "\"" "" . show $ age
+        in
+        printf "Name: %s; Surname: %s; Age %s" name surname aStringed
+
+data MyType a = MyType { someField :: a }
+instance Show a => Show (MyType a) where
+    show (MyType a) = "My stringification " ++ (replace "\"" "" . show $ a)
+
 
 main = do
-    print . IPAddress $ "localhost"
-    print $ user
-    print $
-        let
-            object = user
-            serializedObject = show object
-            deserializedObject = read serializedObject
-        in
-        object == deserializedObject
-    print $
-        let
-            descriptionOf = \protocol ->
-                case protocol of
-                    TCP  -> "Transmission Control Protocol"
-                    UDP  -> "User Datagram Protocol"
-                    SCTP -> "Stream Control Transmission Protocol"
-                    DCCP -> "Datagram Congestion Control Protocol"
-                    SPX  -> "Sequenced Packet Exchange"
-        in
-        [descriptionOf protocol | protocol <- [TCP ..]]
-    print $ show(minBound::TransportLayer)
-    print $ show(maxBound::TransportLayer)
-    where
-        user = User { name = "Name"
-                    , surname = "Surname"
-                    , age = 18
-                    }
+    print $ MyType { someField = 12.45 :: Double}
+    print $ MyType { someField = "12.45" :: String}
+    print $ User { name = "NAME"
+                 , surname = "SURNAME"
+                 , age = 18 :: Int
+                 }
+    print $ User { name = "NANEM"
+                 , surname = "SURNAME"
+                 , age = "23" :: String
+                 }
