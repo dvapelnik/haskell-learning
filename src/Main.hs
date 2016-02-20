@@ -1,33 +1,32 @@
 module Main where
 
 import Text.Printf
-import Data.String.Utils
 
-data User a = User { name
-                 , surname::String
-                 , age::a
-                 }
+type SHU = Integer
 
-instance Show a => Show (User a) where
-    show (User name surname age) =
-        let
-            aStringed = replace "\"" "" . show $ age
-        in
-        printf "Name: %s; Surname: %s; Age %s" name surname aStringed
+class Pepper p where
+    color :: p -> String
+    pungency :: p -> SHU
 
-data MyType a = MyType { someField :: a }
-instance Show a => Show (MyType a) where
-    show (MyType a) = "My stringification " ++ (replace "\"" "" . show $ a)
+data Poblano = Poblano
+data TrinidadScorpion = TrinidadScorpion
 
+instance Pepper Poblano where
+    color Poblano = "green"
+    pungency Poblano = 1500
+
+instance Pepper TrinidadScorpion where
+    color TrinidadScorpion = "red"
+    pungency TrinidadScorpion = 855000
 
 main = do
-    print $ MyType { someField = 12.45 :: Double}
-    print $ MyType { someField = "12.45" :: String}
-    print $ User { name = "NAME"
-                 , surname = "SURNAME"
-                 , age = 18 :: Int
-                 }
-    print $ User { name = "NANEM"
-                 , surname = "SURNAME"
-                 , age = "23" :: String
-                 }
+    printf "Pepper 'Poblano' has %s color and %s pungency" poblanoColorString poblanoPungencyString
+    printf "Pepper 'Poblano' has %s color and %s pungency" trinidadColorString trinidadPungencyString
+    where
+        poblano = Poblano
+        poblanoColorString = color poblano
+        poblanoPungencyString = show (pungency poblano)
+
+        trinidad = TrinidadScorpion
+        trinidadColorString = color trinidad
+        trinidadPungencyString = show (pungency trinidad)
