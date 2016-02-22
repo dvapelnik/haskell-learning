@@ -1,28 +1,17 @@
 module Main where
 
-import Text.Printf
+newtype IPAddress = IP String deriving Show
 
-type SHU = Integer
+type NewIPAddress = IPAddress
 
-class Pepper p where
-    simple   :: p           -- Это константное значение, а не функция.
-    color    :: p -> String
-    pungency :: p -> SHU
-    name     :: p -> String
-
-data Poblano = Poblano String
-
-instance Pepper Poblano where
-    simple = Poblano "ancho"         -- Готовим простое значение.
-    color (Poblano name) = "green"
-    pungency (Poblano name) = 1500
-    name (Poblano name) = name
+yIPAddress :: NewIPAddress -> String
+yIPAddress a = show a
 
 main = do
-    print $ name (simple :: Poblano)
-    print $ color poblano
-    print $ pungency poblano
-    print $ name poblano
-    where
-        poblano = Poblano "POBLANO"
-
+    print $ IP "127.0.0.1"
+    print $
+        let
+            ip_address = IP "localhost"
+        in
+        yIPAddress ip_address
+    print . yIPAddress $ IP "localhost"
