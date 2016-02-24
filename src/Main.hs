@@ -1,5 +1,7 @@
 module Main where
 
+import System.IO
+
 data User = User { login, password :: String } deriving (Show)
 
 askUserCredentials :: IO User
@@ -12,5 +14,6 @@ askUserCredentials = do
 
 main :: IO ()
 main = do
+    hSetBuffering stdout LineBuffering
     user <- askUserCredentials
     print $ user
