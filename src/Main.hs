@@ -2,7 +2,7 @@ module Main where
 
 import System.IO
 
-data User = User { login, password :: String } deriving (Show)
+data User = User { login, password, password2 :: String } deriving (Show)
 
 askUserCredentials :: IO User
 askUserCredentials = do
@@ -10,7 +10,9 @@ askUserCredentials = do
     login <- getLine
     putStrLn "Password:"
     password <- getLine
-    return $ User { login = login, password = password }
+    putStrLn "Confirm password:"
+    password2 <- getLine
+    return $ User { login = login, password = password, password2 = password2 }
 
 main :: IO ()
 main = do
