@@ -30,3 +30,13 @@ main = do
     putStrLn fileContentFromWrongPath
     fileContentFromWrongPath' <- tryToOpenFile' $ homePath ++ "/.bashrc.wrong"
     putStrLn fileContentFromWrongPath'
+
+    result <- try $ readFile (homePath ++ "/.bashrc.wrong") :: IO (Either IOException String)
+    case result of
+        Left exception -> putStrLn $ "Fault: " ++ show exception
+        Right content -> putStrLn content
+
+    result <- try $ evaluate $ 2 `div` 0 :: IO (Either SomeException Integer)
+    case result of
+        Left exception -> putStrLn $ "Fault: " ++ show exception
+        Right evaluationResult -> putStrLn $ "The result is " ++ show evaluationResult
