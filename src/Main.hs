@@ -2,29 +2,20 @@
 
 module Main where
 
-import Control.Exception
-import Data.String.Utils
-import Data.Typeable
+--class Monad m where
+--    (>>=)  :: m a -> (a -> m b) -> m b
+--    (>>)   :: m a -> m b -> m b
+--    return :: a -> m a
+--    fail   :: String -> m a
 
-type Repo = String
-
-data InvalidRepository = InvalidRepository Repo deriving (Show, Typeable)
-
-instance Exception InvalidRepository
-
-extractProtocol :: String -> String
-extractProtocol path =
-    if path `startsWith` "git" || path `startsWith` "ssh"
-    then
-        takeWhile (/= ':') path
-    else
-        throw $ InvalidRepository path
-    where
-        startsWith url prefix = startswith prefix url
+--class Monad IO where
+--    (>>=)  :: IO a -> (a -> IO b) -> IO b
+--    (>>)   :: IO a -> IO b -> IO b
+--    return :: a -> IO a
+--    fail   :: String -> IO a
 
 main :: IO ()
-main = do
-    result <- try $ evaluate $ extractProtocol "https://user@server" :: IO (Either SomeException String)
-    case result of
-        Left exception -> putStrLn $ "Failed: " ++ show exception
-        Right protocol -> putStrLn . show $ protocol
+--main = do
+--    text <- getLine
+--    putStrLn $ "You said '" ++ text ++ "'"
+main = getLine >>= \text -> putStrLn $ "You said '" ++ text ++ "'"
