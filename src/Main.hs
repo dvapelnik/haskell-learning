@@ -16,6 +16,6 @@ module Main where
 
 main :: IO ()
 --main = do
---    text <- getLine
---    putStrLn $ "You said '" ++ text ++ "'"
-main = getLine >>= \text -> putStrLn $ "You said '" ++ text ++ "'"
+--    putStrLn "Foo"
+--    putStrLn "Bar"
+main = putStrLn "Foo" >> putStrLn "Bar"
