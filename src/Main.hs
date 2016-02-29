@@ -14,8 +14,12 @@ module Main where
 --    return :: a -> IO a
 --    fail   :: String -> IO a
 
+obtainTextFromUser :: IO String
+--obtainTextFromUser = do
+--    putStrLn "Enter your text, please: "
+--    firstText <- getLine
+--    return $ "'" ++ firstText ++ "'"
+obtainTextFromUser = putStrLn "Enter your text, please: " >> getLine >>= \firstText -> return $ "[" ++ firstText ++ "]"
+
 main :: IO ()
---main = do
---    putStrLn "Foo"
---    putStrLn "Bar"
-main = putStrLn "Foo" >> putStrLn "Bar"
+main = obtainTextFromUser >>= \firstText -> putStrLn firstText
