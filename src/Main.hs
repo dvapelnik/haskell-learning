@@ -23,9 +23,17 @@ instance Functor Distance where
 instance Applicative Distance where
     pure magicWand = Distance magicWand
     Distance magicWand <*> functor = fmap magicWand functor
+    Distance a *> Distance b = Distance b
+    Distance a <* Distance b = Distance a
 
 main :: IO ()
 main = do
     print $ (+) <$> Distance 3 <*> Distance 2
     print $ pure (+) <*> Distance 3
                      <*> Distance 2
+    print $ pure (+) <*> Distance 3
+                     <*> Distance 2
+                     *> Distance 4
+    print $ pure (+) <*> Distance 3
+                     <*> Distance 2
+                     <* Distance 4
