@@ -11,7 +11,7 @@ import Control.Applicative
 
 --class Functor f => Applicative f where
 --    pure  :: a -> f a
---    (<*>) :: f (a -> b) -> f a -> f b  -- Наш главный герой.
+--    (<*>) :: f (a -> b) -> f a -> f b
 --    (*>)  :: f a -> f b -> f b
 --    (<*)  :: f a -> f b -> f a
 
@@ -26,14 +26,12 @@ instance Applicative Distance where
     Distance a *> Distance b = Distance b
     Distance a <* Distance b = Distance a
 
+obtainTwoTextsFromUser :: IO String
+obtainTwoTextsFromUser =
+    (joinWIthGlue "+++++") <$> getFirstText <*> getSecondText -- string concatenation
+    where getFirstText = putStrLn "Enter your text, please: " *> getLine
+          getSecondText = putStrLn "One more, please: " *> getLine
+          joinWIthGlue glue a b = a ++ glue ++ b
+
 main :: IO ()
-main = do
-    print $ (+) <$> Distance 3 <*> Distance 2
-    print $ pure (+) <*> Distance 3
-                     <*> Distance 2
-    print $ pure (+) <*> Distance 3
-                     <*> Distance 2
-                     *> Distance 4
-    print $ pure (+) <*> Distance 3
-                     <*> Distance 2
-                     <* Distance 4
+main = obtainTwoTextsFromUser >>= \text -> putStrLn $ "Your glued strings is: " ++ text
