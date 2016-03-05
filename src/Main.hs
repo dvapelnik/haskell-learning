@@ -15,6 +15,10 @@ import Control.Applicative
 --    (*>)  :: f a -> f b -> f b
 --    (<*)  :: f a -> f b -> f a
 
+data MyType value = MyType value deriving Show
+instance Functor MyType where
+    fmap fn (MyType value) = MyType ((\x -> x)(fn value))
+
 data Distance value = Distance value deriving Show
 
 instance Functor Distance where
