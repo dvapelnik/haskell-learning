@@ -3,11 +3,11 @@
 module Main where
 
 integration :: (Double -> Double) -> Double -> Double -> Double
-integration f a b | a == b  = 0
-                  | a > b   = (-1) * integration f b a
+integration f a b | a == b    = 0
+                  | a > b     = -integration f b a
                   | otherwise =
                     let
-                        step = (b-a) / 1000
+                        step = (b-a) / 1000000
                         accum = 0.0
                     in
                     stInt accum f a step b
