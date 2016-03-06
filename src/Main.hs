@@ -3,6 +3,5 @@ module Main where
 
 
 main = do
-    putStrLn . show $ 5 + (4 - (4 * 2))
-    putStrLn . show $ (+) 5 ((-) 4  ((*) 4 2))
-    putStrLn . show $ (+) 5 $ (-) 4 $ (*) 4 2
+    putStrLn . show $ logBase 4 (min 20 (9 + 7))
+    putStrLn . show $ logBase 4 $ min 20 $ 9 + 7
