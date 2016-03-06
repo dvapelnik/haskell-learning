@@ -1,7 +1,6 @@
 module Main where
 
-sign x | x == 0 = 0
-       | x < 0 = -1
-       | x > 0 = 1
+infixl 6 *+*
+(*+*) a b = a * a + b * b
 
-main = putStrLn . show . sign $ 100
+main = putStrLn . show $ 1 + 3 *+* 2 * 2
