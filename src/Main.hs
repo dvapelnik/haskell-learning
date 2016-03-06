@@ -2,14 +2,26 @@
 
 module Main where
 
-seqA n | n == 0 = 1
-       | n == 1 = 2
-       | n == 2 = 3
-       | n >= 2 =
-            let
-                seqA' 0 p q r = r
-                seqA' n p q r = seqA' (n-1) q r (r+q-2*p)
-            in
-            seqA' (n-2) 1 2 3
+integration :: (Double -> Double) -> Double -> Double -> Double
+integration f a b | a == b  = 0
+                  | a > b   = (-1) * integration f b a
+                  | otherwise =
+                    let
+                        step = (b-a) / 1000
+                        accum = 0.0
+                    in
+                    stInt accum f a step b
+                    where
+                        stInt accum f begin step b | begin > b = accum
+                                                   | otherwise =
+                                                        let
+                                                            lft = f begin
+                                                            rgt = f (begin + step)
+                                                            localtInt = step * (lft + rgt) / 2
+                                                            newAccum = accum + localtInt
+                                                            newBegin = begin + step
+                                                        in
+                                                        stInt newAccum f newBegin step b
 
-main = putStrLn . show . seqA $ 301
+
+main = putStrLn . show $ integration (\x -> x) 0 2
