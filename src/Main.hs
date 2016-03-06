@@ -1,6 +1,8 @@
 module Main where
 
-infixl 6 |-|
-(|-|) a b = abs(a - b)
 
-main = putStrLn . show $ 5 |-| 7
+
+main = do
+    putStrLn . show $ 5 + (4 - (4 * 2))
+    putStrLn . show $ (+) 5 ((-) 4  ((*) 4 2))
+    putStrLn . show $ (+) 5 $ (-) 4 $ (*) 4 2
