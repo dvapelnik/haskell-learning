@@ -2,7 +2,9 @@ module Main where
 
 import Data.Char
 
-factorial n | n == 0 = 1
-            | n > 0 = n * factorial (n - 1)
+doubleFact 0 = 1
+doubleFact 1 = 1
+doubleFact n = n * doubleFact (n - 2)
 
-main = putStrLn . show . factorial $ 4
+
+main = putStrLn . show . doubleFact $ 8
