@@ -1,6 +1,6 @@
 module Main where
 
-infixl 6 *+*
-(*+*) a b = a * a + b * b
+infixl 6 |-|
+(|-|) a b = abs(a - b)
 
-main = putStrLn . show $ 1 + 3 *+* 2 * 2
+main = putStrLn . show $ 5 |-| 7
