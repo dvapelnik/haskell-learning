@@ -15,6 +15,11 @@ import Control.Applicative
 --    (*>)  :: f a -> f b -> f b
 --    (<*)  :: f a -> f b -> f a
 
+data User a = User a String deriving (Show)
+
+instance Functor User where
+    fmap f (User v1 v2) = User (f v1) v2
+
 data MyType value = MyType value deriving Show
 instance Functor MyType where
     fmap fn (MyType value) = MyType ((\x -> x)(fn value))
