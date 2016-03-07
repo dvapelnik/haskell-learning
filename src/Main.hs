@@ -4,14 +4,13 @@ module Main where
 
 import Data.Function
 
-sumSquares = (+) `on` (^2)
+--on :: (b -> b -> c) -> (a -> b) -> a -> a -> c
+--on op f x y = f x `op` f y
 
-multSecond = g `on` h
+on3 :: (b -> b -> b -> c) -> (a -> b) -> a -> a -> a -> c
+on3 op f x y z = op (f x) (f y) (f z)
 
-g = (*)
-
-h = snd
+sum3squares = (\x y z -> x+y+z) `on3` (^2)
 
 main = do
-    print $ sumSquares 2 4
-    print $ multSecond ('A',2) ('E',7)
+    print $ sum3squares 1 2 3
