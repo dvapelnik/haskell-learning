@@ -2,7 +2,20 @@
 
 module Main where
 
-import Data.Function
+class Printable a where
+    toString :: a -> String
+
+instance Printable Bool where
+	toString True = "true"
+	toString False = "false"
+
+instance Printable () where
+	toString () = "unit type"
+
+instance (Printable a, Printable b) => Printable (a,b) where
+	toString (a,b) = "(" ++ toString a ++ "," ++ toString b ++ ")"
 
 main = do
-    print . show . (uncurry (flip (,))) $  (1,'A')
+    print . show $ toString True
+    print . show $ toString ()
+    print . show $ toString (True, False)
