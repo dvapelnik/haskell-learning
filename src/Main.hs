@@ -3,27 +3,13 @@
 
 module Main where
 
-class (Enum a, Bounded a, Eq a) => SafeEnum a where
-    ssucc :: a -> a
-    ssucc a =
-        if a == (maxBound :: a)
-        then
-            minBound :: a
-        else
-            succ a
-
-    spred :: a -> a
-    spred a =
-        if a == (minBound :: a)
-        then
-            maxBound :: a
-        else
-            pred a
-
-instance SafeEnum Bool
+avg :: Int -> Int -> Int -> Double
+avg a b c =
+    (aD + bD + cD) / 3
+    where
+        aD = fromIntegral a :: Double
+        bD = fromIntegral b :: Double
+        cD = fromIntegral c :: Double
 
 main = do
-    print . show . ssucc $ False
-    print . show . ssucc $ True
-    print . show . spred $ False
-    print . show . spred $ True
+    print . show $ avg 3 4 8
