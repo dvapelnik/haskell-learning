@@ -1,21 +1,29 @@
 {-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 
-class Printable a where
-    toString :: a -> String
+class (Enum a, Bounded a, Eq a) => SafeEnum a where
+    ssucc :: a -> a
+    ssucc a =
+        if a == (maxBound :: a)
+        then
+            minBound :: a
+        else
+            succ a
 
-instance Printable Bool where
-	toString True = "true"
-	toString False = "false"
+    spred :: a -> a
+    spred a =
+        if a == (minBound :: a)
+        then
+            maxBound :: a
+        else
+            pred a
 
-instance Printable () where
-	toString () = "unit type"
-
-instance (Printable a, Printable b) => Printable (a,b) where
-	toString (a,b) = "(" ++ toString a ++ "," ++ toString b ++ ")"
+instance SafeEnum Bool
 
 main = do
-    print . show $ toString True
-    print . show $ toString ()
-    print . show $ toString (True, False)
+    print . show . ssucc $ False
+    print . show . ssucc $ True
+    print . show . spred $ False
+    print . show . spred $ True
