@@ -3,8 +3,11 @@
 
 module Main where
 
-addTwoElements :: a -> a -> [a] -> [a]
-addTwoElements x y lst = x : y : lst
+nTimes :: a -> Int -> [a]
+nTimes item n | n == 0 = []
+              | n == 1 = [item]
+              | n < 0 = error "n should be greater or equal to zero"
+              | otherwise = item : nTimes item (n-1)
 
 main = do
-    print . show $ addTwoElements 2 12 [85,0,6]
+    print . show $ nTimes 42 3
