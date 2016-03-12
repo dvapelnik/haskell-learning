@@ -3,11 +3,14 @@
 
 module Main where
 
-nTimes :: a -> Int -> [a]
-nTimes item n | n == 0 = []
-              | n == 1 = [item]
-              | n < 0 = error "n should be greater or equal to zero"
-              | otherwise = item : nTimes item (n-1)
+oddsOnly :: Integral a => [a] -> [a]
+oddsOnly [] = []
+oddsOnly (x:xs) =
+    if odd x
+    then
+        [x] ++ oddsOnly xs
+    else
+        [] ++ oddsOnly xs
 
 main = do
-    print . show $ nTimes 42 3
+    print . show $ oddsOnly [2,5,7,10,11,12]
