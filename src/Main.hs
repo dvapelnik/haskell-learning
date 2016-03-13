@@ -3,14 +3,21 @@
 
 module Main where
 
-oddsOnly :: Integral a => [a] -> [a]
-oddsOnly [] = []
-oddsOnly (x:xs) =
-    if odd x
-    then
-        [x] ++ oddsOnly xs
-    else
-        [] ++ oddsOnly xs
+-- Non-exhaustive patterns in function isPalindrome
+isPalindrome' :: Eq a => [a] -> Bool
+isPalindrome' [x] = True
+isPalindrome' [x, y] = x == y
+isPalindrome' (x:xs) = (x == last xs) && (isPalindrome' . init $ xs)
+
+isPalindrome :: Eq a => [a] -> Bool
+isPalindrome xs = xs == reverse xs
 
 main = do
-    print . show $ oddsOnly [2,5,7,10,11,12]
+    print . show $ head [1, 2]
+    print . show $ last [1, 2]
+    print . show $ (\(x:xs) -> init xs) [1, 2, 3, 4]
+    print . show $ isPalindrome "saippuakivikauppias"
+    print . show $ isPalindrome [1]
+    print . show $ isPalindrome [1, 2]
+    print . show $ isPalindrome [1, 2, 1]
+    print . show $ isPalindrome [1, 2, 2, 1]
