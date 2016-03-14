@@ -3,21 +3,14 @@
 
 module Main where
 
--- Non-exhaustive patterns in function isPalindrome
-isPalindrome' :: Eq a => [a] -> Bool
-isPalindrome' [x] = True
-isPalindrome' [x, y] = x == y
-isPalindrome' (x:xs) = (x == last xs) && (isPalindrome' . init $ xs)
-
-isPalindrome :: Eq a => [a] -> Bool
-isPalindrome xs = xs == reverse xs
+sum3 :: Num a => [a] -> [a] -> [a] -> [a]
+sum3 (x:xs) (y:ys) (z:zs) = (x+y+z): sum3 xs ys zs
+sum3  []     (y:ys)   (z:zs) = (y+z): sum3 [] ys zs
+sum3 (x:xs)   []      (z:zs) = (x+z): sum3 xs [] zs
+sum3 (x:xs)  (y:ys)    []    = (x+y): sum3 xs ys []
+sum3 xs       []       []    = xs
+sum3 []       ys       []    = ys
+sum3 []       []       zs    = zs
 
 main = do
-    print . show $ head [1, 2]
-    print . show $ last [1, 2]
-    print . show $ (\(x:xs) -> init xs) [1, 2, 3, 4]
-    print . show $ isPalindrome "saippuakivikauppias"
-    print . show $ isPalindrome [1]
-    print . show $ isPalindrome [1, 2]
-    print . show $ isPalindrome [1, 2, 1]
-    print . show $ isPalindrome [1, 2, 2, 1]
+    print . show $ sum3 [1,2,3] [4,5] [6]
