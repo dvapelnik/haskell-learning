@@ -3,14 +3,16 @@
 
 module Main where
 
-sum3 :: Num a => [a] -> [a] -> [a] -> [a]
-sum3 (x:xs) (y:ys) (z:zs) = (x+y+z): sum3 xs ys zs
-sum3  []     (y:ys)   (z:zs) = (y+z): sum3 [] ys zs
-sum3 (x:xs)   []      (z:zs) = (x+z): sum3 xs [] zs
-sum3 (x:xs)  (y:ys)    []    = (x+y): sum3 xs ys []
-sum3 xs       []       []    = xs
-sum3 []       ys       []    = ys
-sum3 []       []       zs    = zs
+groupElems :: Eq a => [a] -> [[a]]
+groupElems [] = []
+groupElems xs = groupElems' xs (head xs) [] [] where
+            groupElems' []     m p ls   = reverse (p:ls)
+            groupElems' (x:xs) m p ls | x== m = groupElems' xs x (x:p) ls
+                                      | otherwise = groupElems' xs x [x] (p:ls)
+
 
 main = do
-    print . show $ sum3 [1,2,3] [4,5] [6]
+--    print . show $ groupElems []
+    print . show $ groupElems [1,2]
+    print . show $ groupElems [1,2,2,2,4]
+    print . show $ groupElems [1,2,3,2,4]
