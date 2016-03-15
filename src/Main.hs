@@ -1,17 +1,17 @@
-{-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 
-qsort :: Ord a => [a] -> [a]
-qsort [] = []
-qsort (x:xs) = ltxs ++ [x] ++ gtxs
+squares'n'cubes :: Num a => [a] -> [a]
+squares'n'cubes a =
+    let
+        squares = map (^2) a
+        cubes = map (^3) a
+    in
+    combine squares cubes
     where
-        ltxs = qsort $ filter (< x) xs
-        gtxs = qsort $ filter (>= x) xs
-
-qsort' [] = []
-qsort' (x:xs) = qsort' [y | y <- xs, y < x] ++ [x] ++ qsort' [y | y <- xs, y >= x]
+        combine :: [a] -> [a] -> [a]
+        combine [] [] = []
+        combine (x:xs) (y:ys) = x:y:combine xs ys
 
 main = do
-    print . show $ qsort [1,3,2,5]
+    print . show $ squares'n'cubes [3,4,5]
