@@ -3,11 +3,13 @@
 
 module Main where
 
-import Data.Char
-
-readDigits :: String -> (String, String)
-readDigits = span isDigit
+filterDisj :: (a -> Bool) -> (a -> Bool) -> [a] -> [a]
+filterDisj p f xs =
+    let
+        or_filter :: (a -> Bool) -> (a -> Bool) -> a -> Bool
+        or_filter p' f' x = p' x || f' x
+    in
+    filter (or_filter p f) xs
 
 main = do
-    print . show $ readDigits "365ads"
-    print . show $ readDigits "365"
+    print . show $ filterDisj (< 10) odd [7,8,10,11,12]
