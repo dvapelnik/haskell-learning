@@ -3,13 +3,15 @@
 
 module Main where
 
-filterDisj :: (a -> Bool) -> (a -> Bool) -> [a] -> [a]
-filterDisj p f xs =
-    let
-        or_filter :: (a -> Bool) -> (a -> Bool) -> a -> Bool
-        or_filter p' f' x = p' x || f' x
-    in
-    filter (or_filter p f) xs
+qsort :: Ord a => [a] -> [a]
+qsort [] = []
+qsort (x:xs) = ltxs ++ [x] ++ gtxs
+    where
+        ltxs = qsort $ filter (< x) xs
+        gtxs = qsort $ filter (>= x) xs
+
+qsort' [] = []
+qsort' (x:xs) = qsort' [y | y <- xs, y < x] ++ [x] ++ qsort' [y | y <- xs, y >= x]
 
 main = do
-    print . show $ filterDisj (< 10) odd [7,8,10,11,12]
+    print . show $ qsort [1,3,2,5]
