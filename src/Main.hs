@@ -1,17 +1,15 @@
 
 module Main where
 
-squares'n'cubes :: Num a => [a] -> [a]
-squares'n'cubes a =
-    let
-        squares = map (^2) a
-        cubes = map (^3) a
-    in
-    combine squares cubes
-    where
-        combine :: [a] -> [a] -> [a]
-        combine [] [] = []
-        combine (x:xs) (y:ys) = x:y:combine xs ys
+perms            :: [a] -> [[a]]
+perms xs0        =  xs0 : perms' xs0 []
+  where
+    perms' []     _  = []
+    perms' (t:ts) is = foldr interleave (perms' ts (t:is)) (perms is)
+      where interleave    xs     r = let (_,zs) = interleave' id xs r in zs
+            interleave' _ []     r = (ts, r)
+            interleave' f (y:ys) r = let (us,zs) = interleave' (f . (y:)) ys r
+                                     in  (y:us, f (t:y:us) : zs)
 
 main = do
-    print . show $ squares'n'cubes [3,4,5]
+    print . show $ perms [0, 1, 2]
