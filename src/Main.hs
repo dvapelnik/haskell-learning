@@ -3,8 +3,8 @@ module Main where
 
 import Data.Char
 
-max3 :: Ord a => [a] -> [a] -> [a] -> [a]
-max3 = zipWith3 (\x -> max . max x)
+fibStream :: [Integer]
+fibStream = 0 : 1 : zipWith (+) fibStream (tail fibStream)
 
 main = do
-    print . show $ max3 [7,2,9] [3,6,8] [1,8,10]
+    print . show $ take 10 $ fibStream
