@@ -3,15 +3,13 @@ module Main where
 data Odd = Odd Integer
     deriving (Eq, Show)
 
-instance Enum Odd where
-    succ (Odd o) = Odd (o+2)
-    pred (Odd o) = Odd (o-2)
-    fromEnum (Odd a) = fromIntegral(a)
-    toEnum a = Odd (toInteger a)
-    enumFrom (Odd a) = map (\a -> Odd a) $ filter odd [a..]
-    enumFromThen (Odd a) (Odd b) = map (\a -> Odd a) $ filter odd [a,b..]
-    enumFromTo (Odd a) (Odd b) = map (\a -> Odd a) $ filter odd [a..b]
-    enumFromThenTo (Odd a) (Odd b) (Odd c)= map (\a -> Odd a) $ filter odd [a,b..c]
+perms :: (Ord a, Num a) => [a] -> [[a]]
+perms xs = [[x,y,z] | x <- xs, y <- xs, z <- xs, x > 1, y < 2, z == 1 || z == 0 ]
 
 main = do
-    print . show $ succ $ Odd (-100000000000003)
+    print . show $ perms [0, 1, 2]
+    print . show $
+        let
+            ints = take 20 $ [1..]
+        in
+        [(x,y,z) | x <- ints, y <- ints, z <- ints, x^2 + y^2 == z^2, x<=y]
