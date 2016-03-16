@@ -1,10 +1,12 @@
 
 module Main where
 
-import Data.Char
+import Prelude hiding (repeat)
 
-fibStream :: [Integer]
-fibStream = 0 : 1 : zipWith (+) fibStream (tail fibStream)
+repeat = iterate repeatHelper
+repeatHelper = \x -> x
 
 main = do
-    print . show $ take 10 $ fibStream
+    print . show $ take 10 $ repeat 1
+    print . show $ take 10 $ repeat 'z'
+    print . show $ take 10 $ repeat "abc"
