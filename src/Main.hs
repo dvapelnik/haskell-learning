@@ -1,15 +1,14 @@
 module Main where
 
-data Odd = Odd Integer
-    deriving (Eq, Show)
+coins :: (Num a) => [a]
+coins = [2, 3, 7]
 
-perms :: (Ord a, Num a) => [a] -> [[a]]
-perms xs = [[x,y,z] | x <- xs, y <- xs, z <- xs, x > 1, y < 2, z == 1 || z == 0 ]
+change :: (Ord a, Num a) => a -> [[a]]
+change n = if n < minimum coins then [] else change' n where
+	change' m  | m < minimum coins = [[]]
+		       | otherwise = [ xs | x <- coins, x <= m, xs <- map (\ys -> x:ys) $ change' (m - x), sum xs == m ]
 
 main = do
-    print . show $ perms [0, 1, 2]
-    print . show $
-        let
-            ints = take 20 $ [1..]
-        in
-        [(x,y,z) | x <- ints, y <- ints, z <- ints, x^2 + y^2 == z^2, x<=y]
+    print . show $ change 7
+    print . show $ change 2
+    print . show $ change 10
