@@ -1,7 +1,9 @@
 module Main where
 
-lengthList :: [a] -> Int
-lengthList = foldr (\x s -> s + 1) 0
+sumOdd :: [Integer] -> Integer
+sumOdd = foldr f 0
+    where f x s | odd x     = x + s
+                | otherwise = s
 
 main = do
-    print . show $ lengthList [7,6,5]
+    print . show $ sumOdd [2,5,30,37]
