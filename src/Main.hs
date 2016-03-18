@@ -1,10 +1,10 @@
 module Main where
 
-lastElem :: [a] -> a
-lastElem = foldl1 (\x y -> y)
+facs :: (Num a, Enum a) => [a]
+facs = scanl (*) 1 [1..]
+
+partialSums :: (Num a) => [a] -> [a]
+partialSums = scanl (+) 0
 
 main = do
-    print . show $ lastElem [1..10]
-    print . show $ lastElem ['a'..'z']
-    print . show $ lastElem [0]
-    print . show $ lastElem [0, 1]
+    print . show $ take 15 . partialSums . map (**(-1)) $ facs
