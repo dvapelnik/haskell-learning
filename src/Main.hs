@@ -1,10 +1,10 @@
 module Main where
 
-facs :: (Num a, Enum a) => [a]
-facs = scanl (*) 1 [1..]
-
-partialSums :: (Num a) => [a] -> [a]
-partialSums = scanl (+) 0
+unfoldr :: (b -> Maybe(a, b)) -> b -> [a]
+unfoldr f ini = helper (f ini)
+    where
+        helper (Just(x, ini')) = x : unfoldr f ini'
+        helper Nothing         = []
 
 main = do
-    print . show $ take 15 . partialSums . map (**(-1)) $ facs
+    print . show $ unfoldr (\x -> if x == 10 then Nothing else Just (x, x+1)) 0
