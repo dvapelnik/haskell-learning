@@ -1,9 +1,10 @@
 module Main where
 
-data Person = Person { firstName :: String, lastName :: String, age :: Int }
+data Shape = Circle Double | Rectangle Double Double
 
-updateLastName :: Person -> Person -> Person
-updateLastName person1 person2 = person2 { lastName = lastName person1 }
+isRectangle :: Shape -> Bool
+isRectangle Rectangle{} = True
+isRectangle _ = False
 
 main = do
     undefined
