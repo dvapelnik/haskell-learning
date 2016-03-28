@@ -1,34 +1,15 @@
-{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
-
 module Main where
 
-data LogLevel = Error | Warning | Info
+data Point = Point Double Double
 
-instance Eq LogLevel where
-    Error == Error = True
-    Error == _ = False
-    Warning == Warning = True
-    Warning == _ = False
-    Info == Info = True
-    Info == _= False
-    _ == _ = False
+origin :: Point
+origin = Point 0.0 0.0
 
-instance Ord LogLevel where
-    Error `compare` Warning = GT
-    Error `compare` Info = GT
-    Warning `compare` Info = GT
-    Info `compare` Warning = LT
-    Info `compare` Error = LT
-    Warning `compare` Error = LT
-    Error `compare` Error = EQ
-    Warning `compare` Warning = EQ
-    Info `compare` Info = EQ
+distanceToOrigin :: Point -> Double
+distanceToOrigin (Point x y) = sqrt (x ^ 2 + y ^ 2)
 
-cmp :: LogLevel -> LogLevel -> Ordering
-cmp a b | a < b = LT
-        | a > b = GT
-        | a == b = EQ
+distance :: Point -> Point -> Double
+distance (Point x1 y1) (Point x2 y2) = sqrt((x1 - x2)^2 + (y1 - y2)^2)
 
 main = do
-    print $ cmp Error Warning
-    print $ cmp Info  Warning
+    undefined
