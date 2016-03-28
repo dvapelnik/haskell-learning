@@ -1,23 +1,9 @@
 module Main where
 
-import Data.Time.Clock
-import Data.Time.Format
-import System.Locale
+data Person = Person { firstName :: String, lastName :: String, age :: Int }
 
-timeToString :: UTCTime -> String
-timeToString = formatTime defaultTimeLocale "%a %d %T"
-
-data LogLevel = Error | Warning | Info
-
-data LogEntry = LogEntry { timestamp :: UTCTime, logLevel :: LogLevel, message :: String }
-
-logLevelToString :: LogLevel -> String
-logLevelToString logLevel = case logLevel of Error -> "Error"
-                                             Warning -> "Warning"
-                                             Info -> "Info"
-
-logEntryToString :: LogEntry -> String
-logEntryToString logEntry = (timeToString . timestamp $ logEntry) ++ ": " ++ (logLevelToString . logLevel $ logEntry) ++ ": " ++ (message logEntry)
+updateLastName :: Person -> Person -> Person
+updateLastName person1 person2 = person2 { lastName = lastName person1 }
 
 main = do
     undefined
