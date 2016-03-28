@@ -1,10 +1,17 @@
 module Main where
 
-data Shape = Circle Double | Rectangle Double Double
+data Person = Person { firstName :: String, lastName :: String, age :: Int }
+    deriving Show
 
-isRectangle :: Shape -> Bool
-isRectangle Rectangle{} = True
-isRectangle _ = False
+abbrFirstName :: Person -> Person
+abbrFirstName p =
+    let
+        p' | (length p'') > 1 = [head $ p''] ++ ['.']
+           | otherwise        = p''
+        p'' = firstName p
+    in
+    p {firstName = p'}
 
 main = do
-    undefined
+    print . abbrFirstName $ Person {firstName = "John", lastName = "Dou", age = 42}
+    print . abbrFirstName $ Person {firstName = "J", lastName = "Dou", age = 42}
