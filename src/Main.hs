@@ -10,8 +10,18 @@ findDigit xs | xs == []  = Nothing
                     | xs == []  = Nothing
                     | otherwise = f xs
 
+findDigitOrX :: [Char] -> Char
+findDigitOrX xs =
+    let
+        res = findDigit xs
+    in
+    case res of Just digit -> digit
+                Nothing    -> 'X'
+
 main = do
     print $ findDigit ""
     print $ findDigit "qwer54"
     print $ findDigit "45sadsd"
     print $ findDigit "asdsdadasd"
+    print $ findDigitOrX "qwer54"
+    print $ findDigitOrX "asdsdadasd"
