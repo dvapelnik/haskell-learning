@@ -1,28 +1,19 @@
 module Main where
 
-data Tree a = Leaf a | Node (Tree a) (Tree a)
+infixl 6 :+:
+infixl 7 :*:
+data Expr = Val Int | Expr :+: Expr | Expr :*: Expr
+    deriving (Show, Eq)
 
-height :: Tree a -> Int
-height (Leaf l) = 0
-height (Node treeLeft treeRight) = 1 + max (height treeLeft) (height treeRight)
-
-size :: Tree a -> Int
-size (Leaf l) = 1
-size (Node treeLeft treeRight) = 1 + size treeLeft + size treeRight
-
-avg :: Tree Int -> Int
-avg t =
-    let (c,s) = go t
-    in s `div` c
-  where
-    go :: Tree Int -> (Int,Int)
-    go (Leaf n) = (1, n)
-    go (Node treeLeft treeRight) =
-        let
-            (c1, s1) = go n1
-            (c2, s2) = go n2
-        in
-        (c1+c2, s1+s2)
+expand :: Expr -> Expr
+expand ((e1 :+: e2) :*: e) = expand (expand e1 :*: expand e) :+: expand (expand e2 :*: expand e)
+expand (e :*: (e1 :+: e2)) = expand (expand e :*: expand e1) :+: expand (expand e :*: expand e2)
+expand (e1 :+: e2) = expand e1 :+: expand e2
+expand (e1 :*: e2) = let
+    ee1 = expand e1
+    ee2 = expand e2
+  in if ee1 == e1 && ee2 == e2 then e1 :*: e2 else expand $ ee1 :*: ee2
+expand e = e
 
 main = do
     undefined
