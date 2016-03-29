@@ -1,22 +1,14 @@
 module Main where
 
-data Nat = Zero | Suc Nat deriving Show
+data Tree a = Leaf a | Node (Tree a) (Tree a)
 
-fromNat :: Nat -> Integer
-fromNat Zero = 0
-fromNat (Suc n) = fromNat n + 1
+height :: Tree a -> Int
+height (Leaf l) = 0
+height (Node treeLeft treeRight) = 1 + max (height treeLeft) (height treeRight)
 
-add :: Nat -> Nat -> Nat
-add  Zero   m = m
-add (Suc n) m = Suc (add n m)
-
-mul :: Nat -> Nat -> Nat
-mul  Zero   _ = Zero
-mul (Suc n) m = add m (mul n m)
-
-fac :: Nat -> Nat
-fac  Zero   = Suc Zero
-fac (Suc n) = mul (Suc n) (fac n)
+size :: Tree a -> Int
+size (Leaf l) = 1
+size (Node treeLeft treeRight) = 1 + size treeLeft + size treeRight
 
 main = do
     undefined
