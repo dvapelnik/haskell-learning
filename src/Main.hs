@@ -1,17 +1,12 @@
 module Main where
 
-data Person = Person { firstName :: String, lastName :: String, age :: Int }
-    deriving Show
+data Coord a = Coord a a
 
-abbrFirstName :: Person -> Person
-abbrFirstName p =
-    let
-        p' | (length p'') > 1 = [head $ p''] ++ ['.']
-           | otherwise        = p''
-        p'' = firstName p
-    in
-    p {firstName = p'}
+distance :: Coord Double -> Coord Double -> Double
+distance (Coord ax ay) (Coord bx by) = sqrt((ax - bx)^2 + (ay - by)^2)
+
+manhDistance :: Coord Int -> Coord Int -> Int
+manhDistance (Coord ax ay) (Coord bx by) = (abs $ ax - bx) + (abs $ ay - by)
 
 main = do
-    print . abbrFirstName $ Person {firstName = "John", lastName = "Dou", age = 42}
-    print . abbrFirstName $ Person {firstName = "J", lastName = "Dou", age = 42}
+    undefined
