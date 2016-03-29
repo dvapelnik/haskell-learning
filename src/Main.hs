@@ -1,27 +1,12 @@
 module Main where
 
-import Data.Char(isDigit)
+maybeToList :: Maybe a -> [a]
+maybeToList m = case m of Just a  -> [a]
+                          Nothing -> []
 
-findDigit :: [Char] -> Maybe Char
-findDigit xs | xs == []  = Nothing
-             | otherwise = f xs
-    where
-        f x'@(x:xs) | isDigit x = Just x
-                    | xs == []  = Nothing
-                    | otherwise = f xs
-
-findDigitOrX :: [Char] -> Char
-findDigitOrX xs =
-    let
-        res = findDigit xs
-    in
-    case res of Just digit -> digit
-                Nothing    -> 'X'
+listToMaybe :: [a] -> Maybe a
+listToMaybe [] = Nothing
+listToMaybe (x:xs) = Just x
 
 main = do
-    print $ findDigit ""
-    print $ findDigit "qwer54"
-    print $ findDigit "45sadsd"
-    print $ findDigit "asdsdadasd"
-    print $ findDigitOrX "qwer54"
-    print $ findDigitOrX "asdsdadasd"
+    undefined
