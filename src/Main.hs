@@ -1,12 +1,8 @@
 module Main where
 
---Ниже приведено определение класса MapLike типов, похожих на тип Map.
---Определите представителя MapLike для типа ListMap, определенного ниже как список пар ключ-значение.
---Для каждого ключа должно храниться не больше одного значения.
---Функция insert заменяет старое значение новым, если ключ уже содержался в структуре.
+--Реализуйте представителя MapLike для типа ArrowMap, определенного ниже.
 
 import Prelude hiding (lookup)
-import qualified Data.List as L
 
 class MapLike m where
     empty :: m k v
@@ -14,35 +10,30 @@ class MapLike m where
     insert :: Ord k => k -> v -> m k v -> m k v
     delete :: Ord k => k -> m k v -> m k v
     fromList :: Ord k => [(k,v)] -> m k v
-    fromList [] = empty
-    fromList ((k,v):xs) = insert k v (fromList xs)
 
-newtype ListMap k v = ListMap { getListMap :: [(k,v)] }
-    deriving (Eq,Show)
+newtype ArrowMap k v = ArrowMap { getArrowMap :: k -> Maybe v }
 
-instance MapLike ListMap where
-    empty = ListMap{getListMap=[]}
-    lookup k table =
+instance MapLike ArrowMap where
+    empty = ArrowMap{getArrowMap = (\k -> Nothing)}
+    lookup k tbl = getArrowMap tbl $ k
+    insert k v tbl =
         let
-            search_fn k [] = Nothing
-            search_fn k ((x,y):xs) | k == x = Just y
-                                   | otherwise = search_fn k xs
+            arrMap x | k == x = Just v
+                     | otherwise = (getArrowMap tbl) x
         in
-        search_fn k (getListMap table)
-    insert k v table =
+        tbl {getArrowMap=arrMap}
+    delete k tbl =
         let
-		    insVal k v [] = [(k,v)]
-		    insVal k v ((x,y):xs) | k == x = ((k,v):xs)
-                                  | otherwise = (x,y):(insVal k v xs)
+            arrMap x | k == x = Nothing
+                     | otherwise = (getArrowMap tbl) x
         in
-        table{getListMap = (insVal k v (getListMap table))}
-    delete k table =
+        tbl {getArrowMap = arrMap}
+    fromList xs =
         let
-            remKey k [] = []
-            remKey k xs'@((x,y):xs) | k == x = xs
-                                    | otherwise = ((x,y):(remKey k xs))
+            fromList' [] arrowMap = arrowMap
+            fromList' ((k,v):xs) arrowMap = fromList' xs (insert k v arrowMap)
         in
-        table{getListMap = (remKey k (getListMap table))}
+        fromList' xs empty
 
 main = do
     undefined
