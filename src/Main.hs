@@ -2,13 +2,14 @@ module Main where
 
 import Data.Monoid
 
-newtype Xor = Xor { getXor :: Bool }
+newtype Maybe' a = Maybe' { getMaybe :: Maybe a }
     deriving (Eq,Show)
 
-instance Monoid Xor where
-    mempty = Xor False
-    mappend (Xor True) (Xor b) = Xor (not b)
-    mappend (Xor _) (Xor b) = Xor b
+instance Monoid a => Monoid (Maybe' a) where
+    mempty = Maybe'{getMaybe = (Just mempty)}
+    mappend mempty (Maybe' Nothing) = Maybe' Nothing
+    mappend (Maybe' Nothing) mempty = Maybe' Nothing
+    mappend (Maybe' a) (Maybe' b) = Maybe' (mappend a b)
 
 main = do
     undefined
