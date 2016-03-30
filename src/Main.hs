@@ -1,19 +1,14 @@
 module Main where
 
-infixl 6 :+:
-infixl 7 :*:
-data Expr = Val Int | Expr :+: Expr | Expr :*: Expr
-    deriving (Show, Eq)
+import Data.Monoid
 
-expand :: Expr -> Expr
-expand ((e1 :+: e2) :*: e) = expand (expand e1 :*: expand e) :+: expand (expand e2 :*: expand e)
-expand (e :*: (e1 :+: e2)) = expand (expand e :*: expand e1) :+: expand (expand e :*: expand e2)
-expand (e1 :+: e2) = expand e1 :+: expand e2
-expand (e1 :*: e2) = let
-    ee1 = expand e1
-    ee2 = expand e2
-  in if ee1 == e1 && ee2 == e2 then e1 :*: e2 else expand $ ee1 :*: ee2
-expand e = e
+newtype Xor = Xor { getXor :: Bool }
+    deriving (Eq,Show)
+
+instance Monoid Xor where
+    mempty = Xor False
+    mappend (Xor True) (Xor b) = Xor (not b)
+    mappend (Xor _) (Xor b) = Xor b
 
 main = do
     undefined
