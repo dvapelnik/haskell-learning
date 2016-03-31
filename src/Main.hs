@@ -13,5 +13,8 @@ execLoggers x f g =
     in
     Log (ys++zs) z
 
+returnLog :: a -> Log a
+returnLog a = Log [] a
+
 main = do
     undefined
