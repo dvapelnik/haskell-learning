@@ -1,13 +1,17 @@
 module Main where
 
-data Entry k1 k2 v = Entry (k1, k2) v  deriving Show
-data Map k1 k2 v = Map [Entry k1 k2 v]  deriving Show
+data Log a = Log [String] a deriving Show
 
-instance Functor (Entry k1 k2) where
-    fmap f (Entry p v) = Entry p (f v)
+toLogger :: (a -> b) -> String -> (a -> Log b)
+toLogger f msg a = Log [msg] (f a)
 
-instance Functor (Map k1 k2) where
-    fmap f (Map e) = Map (map (fmap f) e)
+execLoggers :: a -> (a -> Log b) -> (b -> Log c) -> Log c
+execLoggers x f g =
+    let
+        Log ys y = f x
+        Log zs z = g y
+    in
+    Log (ys++zs) z
 
 main = do
     undefined
