@@ -2,6 +2,10 @@ module Main where
 
 data Log a = Log [String] a deriving Show
 
+instance Monad Log where
+    return = returnLog
+    (>>=) = bindLog
+
 toLogger :: (a -> b) -> String -> (a -> Log b)
 toLogger f msg a = Log [msg] (f a)
 
@@ -19,6 +23,9 @@ returnLog a = Log [] a
 bindLog :: Log a -> (a -> Log b) -> Log b
 bindLog (Log logsa a) f = Log (logsa ++ logsb) b where
   (Log logsb b) = f a
+
+execLoggersList :: a -> [a -> Log a] -> Log a
+execLoggersList = foldl (>>=) . return
 
 main = do
     undefined
