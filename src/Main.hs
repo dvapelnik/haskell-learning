@@ -16,5 +16,9 @@ execLoggers x f g =
 returnLog :: a -> Log a
 returnLog a = Log [] a
 
+bindLog :: Log a -> (a -> Log b) -> Log b
+bindLog (Log logsa a) f = Log (logsa ++ logsb) b where
+  (Log logsb b) = f a
+
 main = do
     undefined
