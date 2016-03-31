@@ -1,10 +1,13 @@
 module Main where
 
-data Tree a = Leaf (Maybe a) | Branch (Tree a) (Maybe a) (Tree a) deriving Show
+data Entry k1 k2 v = Entry (k1, k2) v  deriving Show
+data Map k1 k2 v = Map [Entry k1 k2 v]  deriving Show
 
-instance Functor Tree where
-    fmap f (Leaf m) = Leaf (fmap f m)
-    fmap f (Branch l m r) = Branch (fmap f l) (fmap f m) (fmap f r)
+instance Functor (Entry k1 k2) where
+    fmap f (Entry p v) = Entry p (f v)
+
+instance Functor (Map k1 k2) where
+    fmap f (Map e) = Map (map (fmap f) e)
 
 main = do
     undefined
