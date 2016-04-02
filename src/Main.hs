@@ -4,30 +4,14 @@ import Data.Char
 
 import Control.Monad
 
-data Board = Board Int deriving (Show, Eq)
-
-nextPositions :: Board -> [Board]
-nextPositions (Board x) = map Board [x-1,x+1]
-
-{-
-nextPositionsN :: Board -> Int -> (Board -> Bool) -> [Board]
-nextPositionsN b 0 pred | pred b = [b]
-nextPositionsN _ 0 _             = []
-nextPositionsN b n pred =
-		do
-			p <- nextPositions b
-			p : filter (\x -> pred x && p /= x) (nextPositionsN p (n - 1) pred)
--}
-
-nextPositionsN :: Board -> Int -> (Board -> Bool) -> [Board]
-nextPositionsN b 0 pred | pred b = [b]
-nextPositionsN _ n _    | n <= 0  = []
-nextPositionsN b n pred = do
-	p <- nextPositions b
-	nextPositionsN p (n-1) pred
-
-f (Board x) = x > 3
-fe (Board x) = even x
+pythagoreanTriple :: Int -> [(Int, Int, Int)]
+pythagoreanTriple x | x <= 0 = []
+                    | otherwise = do
+                        c <- [1..x]
+                        b <- [1..x]
+                        a <- [1..b-1]
+                        True <- return(a^2 + b^2 == c^2)
+                        return (a, b, c)
 
 main = do
     undefined
