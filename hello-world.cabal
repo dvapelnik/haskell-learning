@@ -13,3 +13,4 @@ executable hello-world
                  , extra
                  , old-locale
                  , time
+                 , directory
