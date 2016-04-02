@@ -6,13 +6,13 @@ data Token = Number Int | Plus | Minus | LeftBrace | RightBrace
     deriving (Eq, Show)
 
 asToken :: String -> Maybe Token
-asToken s | s == ""  = Nothing
-          | s == "+" = Just Plus
-          | s == "-" = Just Minus
-          | s == "(" = Just LeftBrace
-          | s == ")" = Just RightBrace
-          | (length . filter isDigit $ s) /= length s = Nothing
-          | otherwise = Just . Number . stringToInt $ s
+asToken s | s == ""       = Nothing
+          | s == "+"      = Just Plus
+          | s == "-"      = Just Minus
+          | s == "("      = Just LeftBrace
+          | s == ")"      = Just RightBrace
+          | all isDigit s = Just . Number . stringToInt $ s
+          | otherwise     = Nothing
             where
                 pairToDec (x, y) = 10^x * y
                 stringToInt = foldr (+) 0 . map pairToDec . map (\(x,y) -> (x, digitToInt y)) . zip [0..] . reverse
@@ -24,23 +24,7 @@ tokenize input =
     else Nothing
     where
         filtered = filter (\mb -> case mb of {Just a -> True; Nothing -> False}) $ res
-
-        res = tokenizeAll input
-        tokenizeAll = map asToken . splitBy ' '
-
-        splitBy :: Char -> String -> [String]
-        splitBy d s = reverse res
-            where
-                (res, delimiter, str) = f ([], d, s)
-                f (container, delimiter, str) | str == "" = (container, delimiter, str)
-                                              | otherwise = f (part:container, delimiter, tail)
-                                                    where
-                                                        isDelimiter = \c -> c /= delimiter
-                                                        frstSpcPos = length . takeWhile isDelimiter $ str
-                                                        (part, tail) =
-                                                            if frstSpcPos == length str
-                                                            then (str, "")
-                                                            else (\(xs, y:ys) -> (xs, ys)) . splitAt frstSpcPos $ str
+        res = map asToken . words $ input
 
 main = do
     undefined
