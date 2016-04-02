@@ -2,30 +2,32 @@ module Main where
 
 import Data.Char
 
-data Token = Number Int | Plus | Minus | LeftBrace | RightBrace
-    deriving (Eq, Show)
+import Control.Monad
 
-asToken :: String -> Maybe Token
-asToken s | s == ""       = Nothing
-          | s == "+"      = Just Plus
-          | s == "-"      = Just Minus
-          | s == "("      = Just LeftBrace
-          | s == ")"      = Just RightBrace
-          | all isDigit s = Just . Number . stringToInt $ s
-          | otherwise     = Nothing
-            where
-                pairToDec (x, y) = 10^x * y
-                stringToInt = foldr (+) 0 . map pairToDec . map (\(x,y) -> (x, digitToInt y)) . zip [0..] . reverse
+data Board = Board Int deriving (Show, Eq)
 
-tokenize :: String -> Maybe [Token]
-tokenize input | input == "" = Just []
-               | otherwise   = fn . words $ input
-                    where
-                        fn []     = Just []
-                        fn (x:xs) = do
-                            t <- asToken x
-                            ts <- fn xs
-                            return (t:ts)
+nextPositions :: Board -> [Board]
+nextPositions (Board x) = map Board [x-1,x+1]
+
+{-
+nextPositionsN :: Board -> Int -> (Board -> Bool) -> [Board]
+nextPositionsN b 0 pred | pred b = [b]
+nextPositionsN _ 0 _             = []
+nextPositionsN b n pred =
+		do
+			p <- nextPositions b
+			p : filter (\x -> pred x && p /= x) (nextPositionsN p (n - 1) pred)
+-}
+
+nextPositionsN :: Board -> Int -> (Board -> Bool) -> [Board]
+nextPositionsN b 0 pred | pred b = [b]
+nextPositionsN _ n _    | n <= 0  = []
+nextPositionsN b n pred = do
+	p <- nextPositions b
+	nextPositionsN p (n-1) pred
+
+f (Board x) = x > 3
+fe (Board x) = even x
 
 main = do
     undefined
