@@ -18,13 +18,14 @@ asToken s | s == ""       = Nothing
                 stringToInt = foldr (+) 0 . map pairToDec . map (\(x,y) -> (x, digitToInt y)) . zip [0..] . reverse
 
 tokenize :: String -> Maybe [Token]
-tokenize input =
-    if length filtered == length res
-    then Just $ (map (\(Just t) -> t)) res
-    else Nothing
-    where
-        filtered = filter (\mb -> case mb of {Just a -> True; Nothing -> False}) $ res
-        res = map asToken . words $ input
+tokenize input | input == "" = Just []
+               | otherwise   = fn . words $ input
+                    where
+                        fn []     = Just []
+                        fn (x:xs) = do
+                            t <- asToken x
+                            ts <- fn xs
+                            return (t:ts)
 
 main = do
     undefined
