@@ -11,3 +11,6 @@ executable hello-world
                  , MissingH
                  , tuple
                  , extra
+                 , old-locale
+                 , time
+                 , directory

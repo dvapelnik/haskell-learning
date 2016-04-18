@@ -1,15 +1,30 @@
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
-
 module Main where
 
--- (.) operator
+import System.Directory (getDirectoryContents, removeFile)
+import Data.List (isInfixOf, filter)
+import Control.Monad(liftM)
 
-compose f g x = f (g x)
+main' :: IO ()
+main' = do
+  putStr $ "Substring: "
+  pattern <- getLine
+  if null pattern
+    then putStrLn "Canceled"
+    else getFiles pattern >>= mapM_ deleteFile
+
+getFiles :: String -> IO [FilePath]
+getFiles pattern =
+  liftM (filter (isInfixOf pattern)) $ getDirectoryContents "."
+
+deleteFile :: FilePath -> IO ()
+deleteFile path = do
+  putStrLn $ "Removing file: " ++ path
+  removeFile path
 
 main :: IO ()
 main = do
-    print $ compose (\x -> x + 10) (\x -> x - 2) 10
-    print $ compose (\x -> x + 10) (\x -> x - 2) $ 10
-    print $ (\x -> x + 10) `compose` (\x -> x - 2) $ 10
-    print $ (\x -> x + 10) . (\x -> x - 2) $ 10
+  putStr $ "What is your name?\nName: "
+  name <- getLine
+  if null name
+    then main
+    else putStrLn $ "Hi, " ++ name ++ "!"
